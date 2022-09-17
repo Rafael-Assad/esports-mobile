@@ -1,5 +1,5 @@
 import { Text, View, ViewProps } from 'react-native';
-
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './style';
 
 interface Props extends ViewProps {
@@ -9,7 +9,7 @@ interface Props extends ViewProps {
 
 export const Headline = ({ title, subtitle, ...rest}: Props) => {
   return (
-    <View style={styles.container} {...rest}>
+    <SafeAreaView style={styles.container} {...rest}>
       <Text style={styles.title}>
         {title}
       </Text>
@@ -17,6 +17,6 @@ export const Headline = ({ title, subtitle, ...rest}: Props) => {
       <Text style={styles.subTitle}>
         {subtitle}
       </Text>
-    </View>
+    </SafeAreaView>
   );
 }

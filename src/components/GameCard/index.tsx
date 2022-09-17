@@ -6,30 +6,31 @@ import { styles } from './style';
 
 export interface GameCardProps {
   id: string;
-  name: string;
-  ads: string;
-  cover: ImageSourcePropType
+  title: string;
+  _count: {Ads: number};
+  bannerUrl: string
 }
 
 interface Props extends TouchableOpacityProps, GameCardProps{}
 
-export const GameCard = ({id, name, ads, cover, ...rest}: Props ) => {
+export const GameCard = ({id, title, _count, bannerUrl, ...rest}: Props ) => {
+
   return (
     <TouchableOpacity style={styles.container} {...rest}>
     <ImageBackground
       style={styles.cover}
-      source={cover}
+      source={{ uri: bannerUrl }}
     >
       <LinearGradient
         colors={THEME.COLORS.FOOTER}
         style={styles.footer}
       >
         <Text style={styles.name}>
-        {name}
+        {title}
         </Text>
 
         <Text style={styles.ads}>
-        {ads} anúncios
+        {_count.Ads} anúncios
         </Text>
       </LinearGradient>
     </ImageBackground>
