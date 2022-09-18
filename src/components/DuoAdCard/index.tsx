@@ -8,10 +8,11 @@ import { DuoAdInfo } from '../DuoAdInfo';
 import { styles } from './style';
 
 interface Props{
-  duoAd: DuoAds
+  duoAd: DuoAds,
+  onConnect: () => void
 }
 
-export const DuoAdCard = ({ duoAd }: Props) => {
+export const DuoAdCard = ({ duoAd, onConnect }: Props) => {
   return (
     <View style={styles.container}>
       <DuoAdInfo label='Nome'
@@ -31,7 +32,9 @@ export const DuoAdCard = ({ duoAd }: Props) => {
         color={duoAd.useVoiceChannel ? THEME.COLORS.SUCCESS : THEME.COLORS.ALERT}
       />
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button}
+        onPress={onConnect}
+      >
         <GameController 
           color={THEME.COLORS.TEXT}
           size={20}

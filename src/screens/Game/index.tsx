@@ -12,6 +12,7 @@ import LogoImg from '../../assets/logo-nlw-esports.png'
 import { THEME } from '../../theme';
 import { styles } from './style';
 import { DuoAdCard } from '../../components/DuoAdCard';
+import { DuoMatch } from '../../components/DuoMatch';
 
 export interface DuoAds {
   id: string,
@@ -25,11 +26,19 @@ export interface DuoAds {
 
 export const Game = () => {
   const [gamesAds, setGamesAds] = useState<DuoAds[]>([])
+  const [duoDiscord, setDuoDiscord] = useState<string>('')
+
   const route = useRoute()
   
   const navigation = useNavigation()
   
   const game = route.params as GameParams
+
+  const getDiscordUser = async (adsId: string) =>{
+    fetch(`http://192.168.0.182:3333/ads/${adsId}/discord`)
+        .then(response => response.json())
+        .then(data => setDuoDiscord(data.discord))
+  }
   
     useEffect(() => {
       fetch(`http://192.168.0.182:3333/games/${game.id}/ads`)
@@ -40,6 +49,10 @@ export const Game = () => {
   const handleGoBack = () =>{
     navigation.goBack()
   }
+
+
+
+
   return (
     <Background>
         <SafeAreaView style={styles.container}>
@@ -80,7 +93,9 @@ export const Game = () => {
           style={styles.duoAdsList}
           keyExtractor={item => item.id}
           renderItem={({ item }) => (
-            <DuoAdCard duoAd={item}/>
+            <DuoAdCard duoAd={item}
+              onConnect={() => getDiscordUser(item.id)}
+            />
             )}
           ListEmptyComponent={() =>(
             <Text style={styles.emptyList}>
@@ -89,6 +104,10 @@ export const Game = () => {
           )}
         />
         
+        <DuoMatch onClose={() => setDuoDiscord('')}
+          visible={duoDiscord.length > 0}
+          discord={duoDiscord}
+        />
       </SafeAreaView>
     </Background>
   );
